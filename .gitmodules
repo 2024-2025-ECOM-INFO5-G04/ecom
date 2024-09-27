@@ -1,0 +1,9 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/2024-2025-ECOM-INFO5-G04/backend-ecom-2025
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/2024-2025-ECOM-INFO5-G04/frontend-ecom-2025
+[submodule "sandbox"]
+	path = sandbox
+	url = https://github.com/2024-2025-ECOM-INFO5-G04/sandbox
