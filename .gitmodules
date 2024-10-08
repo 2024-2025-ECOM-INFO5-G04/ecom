@@ -1,6 +1,8 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/2024-2025-ECOM-INFO5-G04/backend-ecom-2025
+	branch = main
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/2024-2025-ECOM-INFO5-G04/frontend-ecom-2025
+	branch = main
