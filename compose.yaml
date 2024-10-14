@@ -1,0 +1,18 @@
+name: mesmeilleursmenus #Magie sombre, ne pas retirer
+
+services:
+  backend:
+    extends:
+      file: ./backend/src/main/docker/app.yml
+      service: app
+  postgresql:
+    extends:
+      file: ./backend/src/main/docker/postgresql.yml
+      service: postgresql
+  nginx:
+    extends:
+      file: ./frontend/compose.yaml
+      service: nginx
+    depends_on:
+      backend:
+        condition: service_healthy
