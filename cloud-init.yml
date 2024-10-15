@@ -1,0 +1,26 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - docker.io
+  - git
+  - curl
+
+runcmd:
+  # Docker Compose v2
+  - export DOCKER_CONFIG=$HOME/.docker
+  - mkdir -p $DOCKER_CONFIG/cli-plugins
+  - curl -SL https://github.com/docker/compose/releases/download/v2.29.6/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+  - sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+
+  # Add current user to docker group
+  - sudo usermod -aG docker azureuser
+
+  # Clone the GitHub repository
+  - sudo git clone --recurse-submodules https://github.com/2024-2025-ECOM-INFO5-G04/ecom.git
+
+  # Change to the directory with the compose.yml file
+  - sudo cd ecom
+  # Compose up
+  - sudo docker compose up --build
