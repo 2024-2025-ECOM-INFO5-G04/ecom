@@ -18,9 +18,9 @@ runcmd:
   - sudo usermod -aG docker azureuser
 
   # Clone the GitHub repository
-  - sudo git clone --recurse-submodules https://github.com/2024-2025-ECOM-INFO5-G04/ecom.git
+  - git clone --recurse-submodules https://github.com/2024-2025-ECOM-INFO5-G04/ecom.git
 
   # Change to the directory with the compose.yml file
-  - sudo cd ecom
+  - cd ecom
   # Compose up
-  - sudo docker compose up --build
+  - docker compose up --build
