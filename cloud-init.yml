@@ -8,19 +8,24 @@ packages:
   - curl
 
 runcmd:
-  # Docker Compose v2
-  - export DOCKER_CONFIG=$HOME/.docker
-  - mkdir -p $DOCKER_CONFIG/cli-plugins
-  - curl -SL https://github.com/docker/compose/releases/download/v2.29.6/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-  - sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+  # Docker Compose v2 Installation
+  - sudo mkdir -p /home/azureuser/.docker/cli-plugins >> /var/log/ecom-setup.log 2>&1
+  - sudo curl -SL https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64 -o /home/azureuser/.docker/cli-plugins/docker-compose >> /var/log/ecom-setup.log 2>&1
+  - sudo chmod +x /home/azureuser/.docker/cli-plugins/docker-compose >> /var/log/ecom-setup.log 2>&1
+  - sudo chown -R azureuser:azureuser /home/azureuser/.docker >> /var/log/ecom-setup.log 2>&1
 
-  # Add current user to docker group
-  - sudo usermod -aG docker azureuser
+  # Add DOCKER_CONFIG environment variable
+  - export DOCKER_CONFIG=/home/azureuser/.docker
 
-  # Clone the GitHub repository
-  - git clone --recurse-submodules https://github.com/2024-2025-ECOM-INFO5-G04/ecom.git
+  # Reload shell to allow docker-compose to be used
+  - exec $SHELL
 
-  # Change to the directory with the compose.yml file
-  - cd ecom
-  # Compose up
-  - docker compose up --build
+  # Add our user to docker group
+  - sudo usermod -aG docker azureuser >> /var/log/ecom-setup.log 2>&1
+  - newgrp docker >> /var/log/ecom-setup.log 2>&1  # Apply docker group change without logout
+
+  # Clone the GitHub repo with it's submodules
+  - git clone --recurse-submodules https://github.com/2024-2025-ECOM-INFO5-G04/ecom.git >> /var/log/ecom-setup.log 2>&1
+
+  # Compose up with Docker Compose from the ecom repo
+  - bash -c "cd ecom && docker compose up --build" >> /var/log/ecom-setup.log 2>&1
